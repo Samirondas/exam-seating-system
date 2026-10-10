@@ -62,7 +62,7 @@ function initAuth(){
     if(spreadsheetId) await connectWorkbook(spreadsheetId);
   }});
 }
-function signIn(){if(!tokenClient){initAuth();if(!tokenClient){setMessage("sheetMessage","OAuth Client ID সেট করে পেজটি আবার খুলুন।","error");return;}}tokenClient.requestAccessToken({prompt:"consent"});}
+function signIn(){if(!tokenClient){initAuth();if(!tokenClient){setMessage("sheetMessage","Please set the OAuth Client ID in app.js and reload the page.","error");return;}}tokenClient.requestAccessToken({prompt:"consent"});}
 function signOut(){if(accessToken&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(accessToken,()=>{});accessToken="";tokenExpiry=0;$("authStatus").textContent="Not connected";$("signInBtn").classList.remove("hidden");$("signOutBtn").classList.add("hidden");["createWorkbookBtn","connectSheetBtn","saveStudentsBtn","saveRoomsBtn","generateBtn","saveResultBtn"].forEach(id=>$(id).disabled=true);setMessage("sheetMessage","Signed out. Local lists remain in this page.","");}
 async function api(url, options={}) {
   if(!accessToken||Date.now()>tokenExpiry-30000)throw new Error("Google sign-in expired. Please sign in again.");
