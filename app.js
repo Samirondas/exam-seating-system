@@ -83,11 +83,21 @@ async function createWorkbook(){
     await initialiseHeaders(spreadsheetId);showSheetLink();setMessage("sheetMessage","New Google Sheet created and configured successfully.","success");
   }catch(e){setMessage("sheetMessage",e.message,"error");}
 }
+```javascript
 async function initialiseHeaders(id){
   const data=[];
-  for(const [sheet,headers] of Object.entries(HEADERS))data.push({range:`'${sheet}'!A1`,values:[headers]});
-  await api(sheetsUrl(id,":values:batchUpdate"),{method:"POST",body:JSON.stringify({valueInputOption:"RAW",data})});
+  for(const [sheet,headers] of Object.entries(HEADERS)){
+    data.push({range:`'${sheet}'!A1`,values:[headers]});
+  }
+  await api(sheetsUrl(id,':values:batchUpdate'),{
+    method:"POST",
+    body:JSON.stringify({
+      valueInputOption:"RAW",
+      data:data
+    })
+  });
 }
+```
 function showSheetLink(){const a=$("openSheetLink");a.href=`https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit`;a.classList.remove("hidden");}
 async function connectWorkbook(id){
   try{
