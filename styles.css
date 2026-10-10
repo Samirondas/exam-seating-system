@@ -28,3 +28,16 @@ footer{text-align:center;color:#7c8797;font-size:12px;padding:16px 0 30px}
 html, body, body * {
   font-family: Arial, Helvetica, sans-serif !important;
 }
+
+/* Fix text rendering across the page */
+html, body {
+  font-family: Arial, Helvetica, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: auto;
+}
+
+body * {
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-variant-ligatures: none !important;
+  text-transform: none;
+}
