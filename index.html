@@ -1,8 +1,9 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Examination Seating Arrangement</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -23,69 +24,213 @@
 
   <main class="wrap">
     <section class="notice">
-      <strong>Setup required:</strong> enter your Google OAuth Client ID in <code>app.js</code> after creating it in Google Cloud. Never put a service-account private key or client secret in this website.
+      <strong>Setup required:</strong>
+      Enter your Google OAuth Client ID in <code>app.js</code>
+      after creating it in Google Cloud.
+      Never put a service-account private key or client secret
+      in this website.
     </section>
 
     <section class="panel setup-panel">
       <div class="panel-heading">
-        <div><h2>1. Google Sheets database</h2><p>Create a new workbook or reconnect to an existing workbook created by this app.</p></div>
+        <div>
+          <h2>1. Google Sheets Database</h2>
+          <p>Create a new workbook or reconnect to an existing workbook created by this app.</p>
+        </div>
       </div>
       <div class="toolbar">
-        <button id="createWorkbookBtn" class="primary" disabled>Create new Google Sheet</button>
-        <label class="field grow"><span>Spreadsheet ID</span><input id="spreadsheetId" placeholder="Paste spreadsheet ID to reconnect"></label>
+        <button id="createWorkbookBtn" class="primary" disabled>
+          Create New Google Sheet
+        </button>
+        <label class="field grow">
+          <span>Spreadsheet ID</span>
+          <input id="spreadsheetId" placeholder="Paste Spreadsheet ID to reconnect">
+        </label>
         <button id="connectSheetBtn" class="secondary" disabled>Connect</button>
-        <a id="openSheetLink" class="link-button hidden" target="_blank" rel="noopener">Open spreadsheet ↗</a>
+        <a id="openSheetLink" class="link-button hidden"
+           target="_blank" rel="noopener">Open Spreadsheet ↗</a>
       </div>
-      <p id="sheetMessage" class="message" aria-live="polite">Sign in to create or connect a spreadsheet.</p>
+      <p id="sheetMessage" class="message" aria-live="polite">
+        Sign in to create or connect a spreadsheet.
+      </p>
     </section>
 
     <section class="panel">
-      <div class="panel-heading"><div><h2>2. Exam details</h2><p>These details are saved with the generated seating plan.</p></div></div>
+      <div class="panel-heading">
+        <div>
+          <h2>2. Examination Details</h2>
+          <p>These details are saved with the generated seating plan.</p>
+        </div>
+      </div>
       <div class="form-grid">
-        <label class="field"><span>Examination / Session</span><input id="examName" value="Semester Examination"></label>
-        <label class="field"><span>Semester</span><input id="semester" placeholder="e.g. Semester VI"></label>
-        <label class="field"><span>Examination date</span><input id="examDate" type="date"></label>
-        <label class="field"><span>Session</span><select id="session"><option>Morning</option><option>Afternoon</option><option>Full Day</option></select></label>
-        <label class="field"><span>Default students per room</span><input id="defaultCapacity" type="number" min="1" value="30"></label>
-        <label class="field"><span>Seating order</span><select id="sortOrder"><option value="roll">Roll number (ascending)</option><option value="name">Student name (A–Z)</option><option value="application">Application number</option></select></label>
+        <label class="field">
+          <span>Examination / Session</span>
+          <input id="examName" value="Semester Examination">
+        </label>
+        <label class="field">
+          <span>Semester</span>
+          <input id="semester" placeholder="e.g. Semester VI">
+        </label>
+        <label class="field">
+          <span>Examination Date</span>
+          <input id="examDate" type="date">
+        </label>
+        <label class="field">
+          <span>Session</span>
+          <select id="session">
+            <option>Morning</option>
+            <option>Afternoon</option>
+            <option>Full Day</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Default Students per Room</span>
+          <input id="defaultCapacity" type="number" min="1" value="30">
+        </label>
+        <label class="field">
+          <span>Seating Order</span>
+          <select id="sortOrder">
+            <option value="roll">Roll Number (Ascending)</option>
+            <option value="name">Student Name (A–Z)</option>
+            <option value="application">Application Number</option>
+          </select>
+        </label>
       </div>
     </section>
 
     <section class="panel">
-      <div class="panel-heading"><div><h2>3. Student data</h2><p>Upload CSV or paste tab-separated rows. Columns: Roll No, Student Name, Application No, Subject, Programme.</p></div><span id="studentCount" class="count">0 students</span></div>
+      <div class="panel-heading">
+        <div>
+          <h2>3. Student Data</h2>
+          <p>Upload a CSV file or paste tab-separated data. Columns: Roll No, Student Name, Application No, Subject, Programme.</p>
+        </div>
+        <span id="studentCount" class="count">0 Students</span>
+      </div>
       <div class="toolbar wrap-toolbar">
-        <label class="file-button">Upload student CSV<input id="csvFile" type="file" accept=".csv,text/csv"></label>
-        <button id="sampleStudentsBtn" class="secondary">Load sample data</button>
-        <button id="clearStudentsBtn" class="secondary">Clear list</button>
+        <label class="file-button">
+          Upload Student CSV
+          <input id="csvFile" type="file" accept=".csv,text/csv">
+        </label>
+        <button id="sampleStudentsBtn" class="secondary">Load Sample Data</button>
+        <button id="clearStudentsBtn" class="secondary">Clear List</button>
       </div>
-      <label class="field"><span>Paste data (one student per line; comma or tab separated)</span><textarea id="studentPaste" rows="5" placeholder="Roll No,Student Name,Application No,Subject,Programme&#10;0001,Example Student,APP001,Bengali,BA"></textarea></label>
-      <div class="toolbar"><button id="importPasteBtn" class="secondary">Import pasted data</button><button id="saveStudentsBtn" class="secondary" disabled>Save students to Google Sheets</button></div>
-      <div class="table-wrap"><table><thead><tr><th>Roll No</th><th>Student Name</th><th>Application No</th><th>Subject</th><th>Programme</th></tr></thead><tbody id="studentTableBody"><tr><td colspan="5" class="empty">No student data loaded.</td></tr></tbody></table></div>
+      <label class="field">
+        <span>Paste Student Data (one student per line; comma or tab separated)</span>
+        <textarea id="studentPaste" rows="5"
+          placeholder="Roll No,Student Name,Application No,Subject,Programme&#10;0001,Example Student,APP001,Bengali,BA"></textarea>
+      </label>
+      <div class="toolbar">
+        <button id="importPasteBtn" class="secondary">Import Pasted Data</button>
+        <button id="saveStudentsBtn" class="secondary" disabled>
+          Save Students to Google Sheets
+        </button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Roll No</th>
+              <th>Student Name</th>
+              <th>Application No</th>
+              <th>Subject</th>
+              <th>Programme</th>
+            </tr>
+          </thead>
+          <tbody id="studentTableBody">
+            <tr><td colspan="5" class="empty">No student data loaded.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section class="panel">
-      <div class="panel-heading"><div><h2>4. Examination rooms</h2><p>Enter one room per line. Format: Room No, Capacity, Rows, Columns. Rows/columns are optional.</p></div><span id="roomCount" class="count">0 rooms</span></div>
-      <label class="field"><span>Room list</span><textarea id="roomPaste" rows="4" placeholder="Room No,Capacity,Rows,Columns&#10;101,30,5,6&#10;102,30,5,6"></textarea></label>
-      <div class="toolbar"><button id="addDefaultRoomsBtn" class="secondary">Create rooms from default capacity</button><button id="saveRoomsBtn" class="secondary" disabled>Save rooms to Google Sheets</button></div>
-      <div class="table-wrap"><table><thead><tr><th>Room No</th><th>Capacity</th><th>Rows</th><th>Columns</th></tr></thead><tbody id="roomTableBody"><tr><td colspan="4" class="empty">No rooms configured.</td></tr></tbody></table></div>
+      <div class="panel-heading">
+        <div>
+          <h2>4. Examination Rooms</h2>
+          <p>Enter one room per line. Format: Room No, Capacity, Rows, Columns. Rows and columns are optional.</p>
+        </div>
+        <span id="roomCount" class="count">0 Rooms</span>
+      </div>
+      <label class="field">
+        <span>Room List</span>
+        <textarea id="roomPaste" rows="4"
+          placeholder="Room No,Capacity,Rows,Columns&#10;101,30,5,6&#10;102,30,5,6"></textarea>
+      </label>
+      <div class="toolbar">
+        <button id="addDefaultRoomsBtn" class="secondary">
+          Create Rooms from Default Capacity
+        </button>
+        <button id="saveRoomsBtn" class="secondary" disabled>
+          Save Rooms to Google Sheets
+        </button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Room No</th>
+              <th>Capacity</th>
+              <th>Rows</th>
+              <th>Columns</th>
+            </tr>
+          </thead>
+          <tbody id="roomTableBody">
+            <tr><td colspan="4" class="empty">No rooms configured.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section class="panel action-panel">
-      <div><h2>5. Generate seating arrangement</h2><p>Allocation and sorting run in your browser. The generated result is then saved in bulk to Google Sheets.</p></div>
-      <div class="toolbar"><button id="generateBtn" class="primary big" disabled>Generate seating</button><button id="saveResultBtn" class="secondary" disabled>Save result to Google Sheets</button><button id="printBtn" class="secondary" disabled>Print A4 reports</button></div>
+      <div>
+        <h2>5. Generate Seating Arrangement</h2>
+        <p>Allocation and sorting run in your browser. The generated result can then be saved to Google Sheets.</p>
+      </div>
+      <div class="toolbar">
+        <button id="generateBtn" class="primary big" disabled>
+          Generate Seating
+        </button>
+        <button id="saveResultBtn" class="secondary" disabled>
+          Save Result to Google Sheets
+        </button>
+        <button id="printBtn" class="secondary" disabled>
+          Print A4 Reports
+        </button>
+      </div>
       <p id="generateMessage" class="message" aria-live="polite"></p>
     </section>
 
     <section class="panel">
-      <div class="panel-heading"><div><h2>6. Seating results & search</h2><p>Search by roll number, student name, application number, subject or room.</p></div><span id="resultCount" class="count">0 assigned</span></div>
+      <div class="panel-heading">
+        <div>
+          <h2>6. Seating Results &amp; Search</h2>
+          <p>Search by roll number, student name, application number, subject or room.</p>
+        </div>
+        <span id="resultCount" class="count">0 Assigned</span>
+      </div>
       <div class="toolbar searchbar">
-        <label class="field grow"><span>Search</span><input id="searchInput" placeholder="Type a roll, name, application no, subject or room"></label>
-        <label class="field"><span>Filter room</span><select id="roomFilter"><option value="">All rooms</option></select></label>
+        <label class="field grow">
+          <span>Search</span>
+          <input id="searchInput"
+            placeholder="Enter roll number, name, application number, subject or room">
+        </label>
+        <label class="field">
+          <span>Filter by Room</span>
+          <select id="roomFilter">
+            <option value="">All Rooms</option>
+          </select>
+        </label>
       </div>
       <div id="resultSummary" class="summary"></div>
-      <div id="resultsContainer"><p class="empty">Generate a seating plan to view results.</p></div>
+      <div id="resultsContainer">
+        <p class="empty">Generate a seating plan to view results.</p>
+      </div>
     </section>
-    <footer>Browser-side seating engine · Google Sheets API · Keep your spreadsheet private and share only with authorized staff.</footer>
+
+    <footer>
+      Browser-side seating engine · Google Sheets API ·
+      Keep your spreadsheet private and share it only with authorized staff.
+    </footer>
   </main>
   <script src="app.js"></script>
 </body>
