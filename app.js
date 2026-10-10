@@ -4,7 +4,7 @@
  * or service-account private key in this file.
  */
 const CONFIG = {
-  GOOGLE_CLIENT_ID: "PASTE_YOUR_GOOGLE_OAUTH_CLIENT_ID_HERE",
+  GOOGLE_CLIENT_ID: "859984835247-mrusgkq3sr3284nb7d3ugl0ffd1407cu.apps.googleusercontent.com",
   SCOPES: "https://www.googleapis.com/auth/spreadsheets",
   API_BASE: "https://sheets.googleapis.com/v4/spreadsheets"
 };
