@@ -1,5 +1,6 @@
 /* Legacy Exam Management migration client. Read-only by design until schemas are verified. */
-const CONFIG={CLIENT_ID:'77929262627-d2i0dg71vc7phdn22vqcu9eg5j7g9hfe.apps.googleusercontent.com'https://www.googleapis.com/auth/spreadsheets.readonly',API:'https://sheets.googleapis.com/v4/spreadsheets'};
+
+const CONFIG={CLIENT_ID:'77929262627-d2i0dg71vc7phdn22vqcu9eg5j7g9hfe.apps.googleusercontent.com',SCOPES:'https://www.googleapis.com/auth/spreadsheets.readonly',API:'https://sheets.googleapis.com/v4/spreadsheets'};
 const $=id=>document.getElementById(id);let tokenClient=null,token='',tokenExpiry=0,spreadsheetId='',book={},rows=[],activeModule='dashboard',currentRows=[],currentHeaders=[];
 const SHEETS=['Applicant Data','Seating_Database','Absentee Statement','Despatch Report'];
 function msg(id,s,type=''){const e=$(id);if(e){e.textContent=s;e.className='message '+type;}}
